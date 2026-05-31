@@ -1,0 +1,14 @@
+# Discord Bot
+discord.py>=2.3.0
+
+# Tuya Cloud (API oficial)
+tuya-connector-python>=1.0.0
+
+# HTTP e utilitários
+requests>=2.31.0
+python-dotenv>=1.0.0
+aiohttp>=3.9.0
+
+# Opcionais (para quando for expandir)
+# PyGithub>=2.1.0   # GitHub API
+# docker>=7.0.0     # Docker API
