@@ -11,6 +11,7 @@ class HomelabMonitor:
     
     
     async def check_health(self) -> Tuple[bool, str]:
+        
         """Verifica se o servidor está online."""
         try:
             # Cabeçalho que o ngrok exige

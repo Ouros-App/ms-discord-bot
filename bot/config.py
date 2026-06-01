@@ -15,10 +15,11 @@ class Config:
     TUYA_ACCESS_SECRET = os.getenv('TUYA_ACCESS_SECRET')
     TUYA_DEVICE_ID = os.getenv('TUYA_DEVICE_ID')
     
-    # Homelab
-    HOMELAB_IP = os.getenv('HOMELAB_IP')
-    HOMELAB_HEALTH_PORT = int(os.getenv('HOMELAB_HEALTH_PORT', 8080))
+    # Homelab - PRIORIDADE para URL completa se existir
+    HOMELAB_HEALTH_URL = os.getenv('HOMELAB_HEALTH_URL')
     
-    @property
-    def HOMELAB_HEALTH_URL(self):
-        return f"http://{self.HOMELAB_IP}:{self.HOMELAB_HEALTH_PORT}/health"
+    if not HOMELAB_HEALTH_URL:
+        # Fallback para IP + Porta (legado)
+        HOMELAB_IP = os.getenv('HOMELAB_IP')
+        HOMELAB_HEALTH_PORT = int(os.getenv('HOMELAB_HEALTH_PORT', 8080))
+        HOMELAB_HEALTH_URL = f"http://{HOMELAB_IP}:{HOMELAB_HEALTH_PORT}/health"
