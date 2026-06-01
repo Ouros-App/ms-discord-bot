@@ -2,7 +2,7 @@
 discord.py>=2.3.0
 
 # Tuya Cloud (API oficial)
-tuya-connector-python>=1.0.0
+tuya-connector>=1.0.0
 
 # HTTP e utilitários
 requests>=2.31.0
