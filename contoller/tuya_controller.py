@@ -1,4 +1,3 @@
-# tuya_controller.py
 from tuya_connector import TuyaOpenAPI
 
 class TuyaController:
@@ -34,10 +33,32 @@ class TuyaController:
             response = self.openapi.get(f"/v1.0/devices/{self.device_id}")
             if response.get('success'):
                 result = response.get('result', {})
+                
+                # Verifica se está online
+                is_online = result.get('online', False)
+                if not is_online:
+                    return {'on': False, 'power_w': 0, 'total_energy_kwh': 0}
+                
+                # O status está dentro do array 'status'
+                status_list = result.get('status', [])
+                
+                # Converte o array em dicionário para fácil acesso
+                status_dict = {item['code']: item['value'] for item in status_list}
+                
+                # Pega o estado do interruptor
+                is_on = status_dict.get('switch_1', False)
+                
+                # Pega a potência atual (cur_power está em watts)
+                power_w = status_dict.get('cur_power', 0)
+                
+                # Pega a energia total (add_ele parece estar em 0.01 kWh)
+                total_energy_raw = status_dict.get('add_ele', 0)
+                total_energy_kwh = total_energy_raw / 100  # Converte para kWh
+                
                 return {
-                    'on': result.get('state', False),
-                    'power_w': result.get('power', 0),
-                    'total_energy_kwh': result.get('total_energy', 0) / 1000 if result.get('total_energy') else 0
+                    'on': is_on,
+                    'power_w': power_w,
+                    'total_energy_kwh': total_energy_kwh
                 }
             return {'on': False, 'power_w': 0, 'total_energy_kwh': 0}
         except Exception as e:
